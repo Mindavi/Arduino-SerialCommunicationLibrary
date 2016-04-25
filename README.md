@@ -1,7 +1,7 @@
 # Arduino-SerialCommunicationLibrary
 This library can be used for Serial communication between, for instance, an Arduino and a pc.
 
-To use this library, copy the cpp and h file to the folder where your ino file is in.
+To use this library, download the library as zip and unpack it in the libraries folder of the Arduino software.
 
 ###Usage
 To initialize the library, use: `SerialCommunication sercom = SerialCommunication(&Serial);`
