@@ -1,7 +1,7 @@
 # Arduino-SerialCommunicationLibrary
 This library can be used for Serial communication between, for instance, an Arduino and a pc.
 
-To use this library, download the library as zip and unpack it in the libraries folder of the Arduino software.
+To use this library, download the library as zip and unpack it in the libraries folder of the Arduino software. You can also add the library like this: sketch->include library->add .zip library.
 
 ###Usage
 To initialize the library, use: `SerialCommunication sercom = SerialCommunication(&Serial);`
