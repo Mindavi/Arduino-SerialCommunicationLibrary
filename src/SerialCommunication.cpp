@@ -8,7 +8,9 @@
 #include "SerialCommunication.h"
 
 
-SerialCommunication::SerialCommunication(Stream *theStream) {
+SerialCommunication::SerialCommunication(Stream *theStream, char beginDelimiter, char endDelimiter) {
+  this->beginDelimiter = beginDelimiter;
+  this->endDelimiter = endDelimiter;
   this->receivedString = "";
   this->incomingChar = '\0';
   this->data = "";
@@ -26,13 +28,13 @@ bool SerialCommunication::update() {
     this->incomingChar = deviceToCommunicateWith->read();
     switch (state) {
       case Communication::WaitForStart:
-        if (this->incomingChar == BEGINDELIMITER) {
+        if (this->incomingChar == this->beginDelimiter) {
           this->receivedString = "";
           this->state = Communication::Receiving;
         }
         break;
       case Communication::Receiving:
-        if (this->incomingChar == ENDDELIMITER) {
+        if (this->incomingChar == this->endDelimiter) {
           this->lastCommand = this->receivedString;
           reset();
           return true;

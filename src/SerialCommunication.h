@@ -11,6 +11,8 @@ enum class Communication { WaitForStart, Receiving };
 
 class SerialCommunication {
   private:
+	char beginDelimiter;
+	char endDelimiter;
     String data;
     char incomingChar;
     String receivedString;
@@ -19,7 +21,7 @@ class SerialCommunication {
     String lastCommand;
     void reset();
   public:
-    SerialCommunication(Stream *theStream);
+	SerialCommunication(Stream *theStream, char beginDelimiter = '%', char endDelimiter = '$');
     String getCommand();
     bool update();
 };
