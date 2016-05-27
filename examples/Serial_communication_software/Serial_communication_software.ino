@@ -5,10 +5,14 @@ SoftwareSerial swser(10,11);
 
 //the constructor takes three arguments, the two last arguments are the begin- and the enddelimiter
 //the last two arguments are optional, by default these are set to '%' and '$'
-SerialCommunication communication = SerialCommunication(&swser);
+SerialCommunication communication;
 
 void setup() {
+  // initialise object
+  communication.begin(&swser);
+  // initial serial for debugging
   Serial.begin(9600);
+  // initialise serial communication
   swser.begin(9600);
 }
 

@@ -8,42 +8,51 @@
 #include "SerialCommunication.h"
 
 
-SerialCommunication::SerialCommunication(Stream *theStream, char beginDelimiter, char endDelimiter) {
-  this->beginDelimiter = beginDelimiter;
-  this->endDelimiter = endDelimiter;
-  this->receivedString = "";
-  this->incomingChar = '\0';
-  this->data = "";
-  this->state = Communication::WaitForStart;
-  this->lastCommand = "";
-  this->deviceToCommunicateWith = theStream;
+SerialCommunication::SerialCommunication() {
+  _isStarted = false;
+  _receivedString = "";
+  _incomingChar = '\0';
+  _data = "";
+  _state = Communication::WaitForStart;
+  _lastCommand = "";
 }
 
 String SerialCommunication::getCommand() {
-  return this->lastCommand;
+  if (!_isStarted) { return "NOT_STARTED_ERROR"; }
+  return _lastCommand;
+}
+
+void SerialCommunication::begin(Stream &theStream, char beginDelimiter, char endDelimiter) {
+  _deviceToCommunicateWith = &theStream;
+  _beginDelimiter = beginDelimiter;
+  _endDelimiter = endDelimiter;
+  _isStarted = true;
 }
 
 bool SerialCommunication::update() {
-  if (deviceToCommunicateWith->available() > 0) {
-    this->incomingChar = deviceToCommunicateWith->read();
-    switch (state) {
+  if (!_isStarted) {
+	return false;
+  }
+  while (_deviceToCommunicateWith->available() > 0) {
+    _incomingChar = _deviceToCommunicateWith->read();
+    switch (_state) {
       case Communication::WaitForStart:
-        if (this->incomingChar == this->beginDelimiter) {
-          this->receivedString = "";
-          this->state = Communication::Receiving;
+        if (_incomingChar == _beginDelimiter) {
+          _receivedString = "";
+          _state = Communication::Receiving;
         }
         break;
       case Communication::Receiving:
-        if (this->incomingChar == this->endDelimiter) {
-          this->lastCommand = this->receivedString;
+        if (_incomingChar == _endDelimiter) {
+          _lastCommand = _receivedString;
           reset();
           return true;
         } else {
-          this->receivedString += this->incomingChar;
+          _receivedString += _incomingChar;
         }
 
-        if (this->receivedString.length() > MAX_COMMAND_LENGTH) {
-          this->lastCommand = "LENGTH_ERROR";
+        if (_receivedString.length() > MAX_COMMAND_LENGTH) {
+          _lastCommand = "LENGTH_ERROR";
           reset();
           return true;
         }
@@ -54,7 +63,7 @@ bool SerialCommunication::update() {
 }
 
 void SerialCommunication::reset() {
-  this->receivedString = "";
-  this->state = Communication::WaitForStart;
+  _receivedString = "";
+  _state = Communication::WaitForStart;
 }
 

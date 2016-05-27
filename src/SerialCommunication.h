@@ -11,17 +11,19 @@ enum class Communication { WaitForStart, Receiving };
 
 class SerialCommunication {
   private:
-	char beginDelimiter;
-	char endDelimiter;
-    String data;
-    char incomingChar;
-    String receivedString;
-    Stream* deviceToCommunicateWith;
-    Communication state;
-    String lastCommand;
+	bool _isStarted;
+	char _beginDelimiter;
+	char _endDelimiter;
+    String _data;
+    char _incomingChar;
+    String _receivedString;
+    Stream* _deviceToCommunicateWith;
+    Communication _state;
+    String _lastCommand;
     void reset();
   public:
-	SerialCommunication(Stream *theStream, char beginDelimiter = '%', char endDelimiter = '$');
+	SerialCommunication();
+	void begin(Stream &theStream, char beginDelimiter = '%', char endDelimiter = '$');
     String getCommand();
     bool update();
 };

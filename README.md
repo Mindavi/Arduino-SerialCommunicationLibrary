@@ -4,7 +4,9 @@ This library can be used for Serial communication between, for instance, an Ardu
 To use this library, download the library as zip and unpack it in the libraries folder of the Arduino software. You can also add the library like this: sketch->include library->add .zip library.
 
 ###Usage
-To initialize the library, use: `SerialCommunication sercom = SerialCommunication(&Serial);`
+To initialize the library, use: `SerialCommunication sercom = SerialCommunication();`
+After this, call `sercom.begin(Serial)` to create the object with the right stream.
+When you have not done this, a call to update will always return false, and a call to getCommand will return `NOT_STARTED_ERROR`.
 To check if a valid command has come through, use `sercom.update()`.
 This command will return true if a valid command has come through, or a too long command has come through.
 After this, call `sercom.getCommand()`. 
