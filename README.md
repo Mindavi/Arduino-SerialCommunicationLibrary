@@ -13,3 +13,6 @@ After this, call `sercom.getCommand()`.
 This will return `LENGTH_ERROR` when the command was too long, and else the command that was sent through Serial.
 To change the max command length, change the value that is defined as `MAX_COMMAND_LENGTH`.
 By default, the begin of a command is marked by a `%`, and the end is marked by a `$`.
+
+###Version
+This is version 1.0.0

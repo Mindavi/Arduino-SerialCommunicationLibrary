@@ -1,3 +1,8 @@
+/*
+	Created by: Rick van Schijndel
+	Version: 1.0.0
+*/
+
 #ifndef SerialCommunication_h
 #define SerialCommunication_h
 #include <Arduino.h>
